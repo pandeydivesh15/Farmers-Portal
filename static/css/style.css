@@ -1,0 +1,81 @@
+body{
+	background: url("../images/background.jpg") repeat;
+}
+.panel{
+	background-color: #D8FBFF;
+}
+
+.main_image {
+	background: url("../images/head_image.jpg") no-repeat;
+	background-size: 100% 100%;
+    background-position: center;
+    padding-top: 140px; 
+    /*background-color: #D6F68B;*/
+}
+
+.heading {
+	text-align: center;
+	color: #004d00;
+	font-family: serif;
+	/*background-color: black; */
+}
+.navbar, .btn, .panel-heading, footer {
+	background: url("../images/textHeaderBack.jpg") repeat;
+	/*opacity: 0.9;
+    filter: alpha(opacity=50);*/
+}
+a{
+	color:white;
+}
+
+.navbar a:hover,.btn:hover{
+	font-style: italic;
+	color: black;
+}
+.menu a .list-group-item{
+	background: url("../images/postBack.jpg") repeat;
+}
+.menu a .list-group-item:hover{
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+	background: #088e30;
+}
+.menu a{
+	color:#088e30;
+}
+.menu a:hover{
+	text-decoration: none;
+}
+.menu > li:first-child{
+	text-transform: uppercase;
+	background: url("../images/textHeaderBack.jpg") repeat;
+}
+
+.jumbotron, .panel-body{
+	background: url("../images/postBack.jpg") repeat;
+}
+
+.zoomin img {
+  height: 250px;
+  /*width: 200px;*/
+  -webkit-transition: all 1.5s ease;
+     -moz-transition: all 1.5s ease;
+      -ms-transition: all 1.5s ease;
+          transition: all 1.5s ease;
+}
+.zoomin img:hover {
+  /*width: 300px;*/
+  height: 400px;
+}
+
+
+
+
+/*@media (max-width: 768px){
+	.main_image{
+		background-size: 100% 100%;
+		padding-top: 100px;
+	}
+
+}*/

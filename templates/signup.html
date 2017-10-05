@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Farmers' Portal</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+ 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+ 	<link rel="stylesheet" href="../static/css/style.css" type="text/css"/>
+</head>
+<body>
+
+	<div id="loginModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+	    	<!-- Modal content-->
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 align="center" class="modal-title"><b style="font:serif;color: #004d00;">LOGIN</b></h4>
+		      </div>
+		      <div class="modal-body">
+		        <form role="form" action="./login/" method="post">
+		        <div class="form-group">
+		        	<input class="form-control" required="True" type="email" name="email" placeholder="Email"></input></div>
+		        <div class="form-group">
+		        	<input class="form-control" required="True" type="password" name="passwd" placeholder="Password"></input></div>
+		        <input class="btn btn-primary" type="submit" value="Login"></input>
+		        
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+		      	<div class="pull-left">
+		        <button type="button" class="btn btn-primary btn-sm"><a href="signup.html">Forgot Password</a></button>
+		        </div>
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		</div>
+	</div>
+	<div class="container" id="top">
+	<div class="main_image"></div>
+	<div class ="heading"><h2>Farmers' Portal : <i>Connecting farmers and experts</i></h2></div>
+	<nav class="navbar navbar-inverse">		
+		<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>                        
+		</button>
+      
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+		<ul class="nav nav-tabs nav-justified">
+		<li><a href="index.html"><span class="glyphicon glyphicon-home"></span> <b>Home</b></a></li>
+		<li><a href="signup.html"><span class="glyphicon glyphicon-user"></span> <b>Sign Up</b></a></li>
+	    <li><a data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+	    <li><a href="faq.html"><span class="glyphicon glyphicon-info-sign"></span> <b>FAQ</b></a></li>
+	    <li><a href="about.html"><span class="glyphicon glyphicon-tasks"></span> <b>About Us</b></a></li>
+	    </ul>
+	</div>
+	</nav>
+	</div>
+
+	<div class="container siteForm">
+		<h2 class="heading">SIGN UP HERE</h2>
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2">
+				<form role="form" action="./signup/" method="post">
+					<div class="form-group">
+						<input class="form-control" type="text" name="user_name" required="True" placeholder="Your Name">
+					</div>
+					<div class="form-group">
+						<div class="panel panel-default">
+							<div class="panel-heading">Choose a profile photo (not compulsory)</div>
+							<div class="col-lg-6 col-lg-offset-3">			
+								<div class="panel-body"><div><input type="file" class="form-control" name="item_image"></div></div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<input class="form-control" type="email" name="user_email" required="True" placeholder="Email">
+					</div>
+					<div class="form-group">
+						<input class="form-control" type="password" name="user_passwd" required="True" placeholder="Password">
+					</div>
+					<div class="form-group" >
+						<input class="form-control " type="number" name="user_contact" required="True" placeholder="Contact Number">
+					</div>
+				
+					<div class="form-group">
+						<input class="form-control" name="user_city" required="True" placeholder="City"> 
+					</div>
+					<div class="form-group">
+						<input class="form-control" name="user_state" required="True" placeholder="State"> 
+					</div>
+					<div class="buttonAlign">
+						<button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+					</div>
+				</form>	
+			</div>
+		</div>
+
+	</div>
+	<br>
+	<footer class="footer">
+	<br>
+      <div class="container">
+        <p class="text-muted" align="center"><a href="#top"><span class="glyphicon glyphicon-arrow-up"></span> Back to Top</a></p>
+        <p class="text-muted" align="center"><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home</a></p>
+      </div>
+    </footer>
+</body>
+</html>

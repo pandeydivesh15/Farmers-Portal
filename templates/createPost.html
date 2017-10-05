@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Farmers' Portal</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+ 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+ 	<link rel="stylesheet" href="../static/css/style.css" type="text/css"/>
+</head>
+<body>
+	<div class="container" id="top">
+		<div class="main_image"></div>
+		<div class ="heading"><h2>Farmers' Portal : <i>Connecting farmers and experts</i></h2></div>
+		<nav class="navbar navbar-inverse">		
+			<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>                        
+			</button>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav nav-tabs nav-justified">
+			<li><a href="home.html"><span class="glyphicon glyphicon-home"></span> <b>Home</b></a></li>
+			<li><a href="profile.html"><span class="glyphicon glyphicon-user"></span> <b>View your profile</b></a></li>
+		    <li><a href="logout.html"><span class="glyphicon glyphicon-log-out"></span> <b>Logout</b></a></li>
+		    <li><a href="faq.html"><span class="glyphicon glyphicon-info-sign"></span> <b>FAQ</b></a></li>
+		    <li><a href="about.html"><span class="glyphicon glyphicon-tasks"></span> <b>About Us</b></a></li>
+		    </ul>
+		</div>
+		</nav>
+	</div>
+
+<div class="container siteForm">
+
+	<h2 class="heading">Enter details of your new Post!</h2>
+	<div class="row">
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">
+			<form role="form" action="" method="get">
+				<div class="form-group">
+					<input class="form-control FormElement" type="text" name="post_title" required="True" placeholder="What is this post about?">
+				</div>
+				<div class="form-group">
+					<textarea class="form-control FormElement" name="post_disc" required="True" placeholder="Describe your post" rows="6"></textarea>
+				</div>
+				<div class="form-group" style="text-align:center;">
+				 <label for="category">Choose category</label>
+				  <select class="form-control" id="category" name="post_category">
+				    <option>Cate 1</option>
+				    <option>Cate 2</option>
+				    <option>Cate 3</option>
+				    <option>Cate 4</option>
+				  </select>
+					<!--<input class="form-control FormElement" type="text" name="item_category" required="True" placeholder="Choose your category"><-->
+				</div>
+				<div class="form-group">
+						<div class="panel panel-default">
+							<div class="panel-heading">Upload the concerned image</div>
+							<div class="col-lg-6 col-lg-offset-3">			
+								<div class="panel-body"><div><input type="file" class="form-control" name="post_image"></div></div>
+							</div>
+						</div>
+				</div><br>
+				<button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+			</form>	
+		</div>
+	</div>
+
+	</div>
+	<br>
+	<footer class="footer">
+	<br>
+      <div class="container">
+        <p class="text-muted" align="center"><a href="#top"><span class="glyphicon glyphicon-arrow-up"></span> Back to Top</a></p>
+        <p class="text-muted" align="center"><a href="home.html"><span class="glyphicon glyphicon-home"></span> Home</a></p>
+      </div>
+    </footer>
+
+</body>
+</html>
