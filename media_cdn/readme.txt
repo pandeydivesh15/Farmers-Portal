@@ -1,0 +1,1 @@
+This directory stores all the post images.

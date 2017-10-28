@@ -1,6 +1,5 @@
-# Website cdn
+# Website static cdn
 static_cdn/
-media_cdn/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
