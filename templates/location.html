@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block navbar %}
+	{% if user %}
+		{% include "navbar_after_login.html" %}
+	{% else %}
+		{% include "navbar_before_login.html" %}
+	{% endif %}
+
+{% endblock navbar %}
+
+{% block content %}
+	<div class="container">
+	<div class="col-lg-10 col-lg-offset-1">
+	<div class="panel panel-default">
+		<div class="panel-heading" align="center"><h3 align="center">Location: {{ location.city }}, {{ location.state }}</h3></div>
+		<div class="panel-body">
+			<div class="caption">
+				<br>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Temperature (degree C)</th>
+							<th>Humidity (%)</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for weather in weather_info %}
+							<tr>
+							<td>{{ weather.date_record }}</td>
+							<td>{{ weather.temperature }}</td>
+							<td>{{ weather.humidity }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				
+			</div>
+		</div>
+	</div>
+	</div>
+	
+	</div>
+	
+{% endblock content %}

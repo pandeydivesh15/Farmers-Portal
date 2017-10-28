@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="container siteForm">
+	{% if post_obj %}
+		<h2 class="heading">Edit your post here!</h2>
+	{% else %}
+		<h2 class="heading">Enter details of your new Post!</h2>
+	{% endif %}
+	
+	<div class="row">
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">
+			<form role="form" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+				<div class="form-group">
+					<input class="form-control FormElement" type="text" name="post_title" required="True" placeholder="What is this post about?" value="{{ post_obj.title }}">
+				</div>
+				<div class="form-group">
+					<textarea class="form-control FormElement" name="post_disc" required="True" placeholder="Describe your post" rows="6">{{ post_obj.description }}</textarea>
+				</div>
+				<div class="form-group" style="text-align:center;">
+				 <label for="category">Choose category</label>
+				  <select class="form-control" id="category" name="post_category">
+				    {% for key,value in category.items %}
+				    	<option>{{ value }}</option>
+				    {% endfor %}
+				  </select>
+					<!--<input class="form-control FormElement" type="text" name="item_category" required="True" placeholder="Choose your category"><-->
+				</div>
+				<div class="form-group">
+						<div class="panel panel-default">
+							<div class="panel-heading">Upload the concerned image</div>
+							<div class="col-lg-6 col-lg-offset-3">			
+								<div class="panel-body"><div><input type="file" class="form-control" name="post_image"></div></div>
+							</div>
+						</div>
+				</div><br>
+				<button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+			</form>	
+		</div>
+	</div>
+
+	</div>
+	<br>	
+{% endblock content %}

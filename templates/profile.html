@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block navbar %}
+	{% if user %}
+		{% include "navbar_after_login.html" %}
+	{% else %}
+		{% include "navbar_before_login.html" %}
+	{% endif %}
+{% endblock navbar %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-2">
+				
+			</div>
+			<div class="col-lg-8">
+				<ul class="list-group">
+					<li class="list-group-item">Name: <b>{{ user.name }}</b></li>
+					<li class="list-group-item">Mail ID: <b>{{ user.user_id }}</b></li>
+					<li class="list-group-item">Contact:  <b>{{ user.contact }}</b></li>
+					<li class="list-group-item">Joined on: <b>{{ user.join_timestamp }}</b></li>
+				</ul>
+			</div>
+		</div>
+	
+	
+	</div>
+	
+{% endblock content %}

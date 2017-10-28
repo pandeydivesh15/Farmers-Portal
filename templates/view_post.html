@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block navbar %}
+	{% if user %}
+		{% include "navbar_after_login.html" %}
+	{% else %}
+		{% include "navbar_before_login.html" %}
+	{% endif %}
+
+{% endblock navbar %}
+{% block content %}
+	<div class="container">
+	<div class="row" align="center">
+		<div class="col-lg-1"></div>
+		<div class="col-lg-10">
+			<div class="panel panel-default post">
+				{% if post_obj.author_expert_id %}
+					<div class="panel-heading" style="background: url('{% static 'images/post_head_expert_back.jpg' %}') repeat;"><b>EXPERT'S POST</b></div>
+				{% else %}
+					<div class="panel-heading"><b>FARMER'S POST</b></div>
+				{% endif %}
+				<div class="panel-body zoomin">
+					<img src="/media/{{post_obj.image}}" alt="No image uploaded">
+					<div class="caption">
+						<p align="center">Posted on: {{ post_obj.timestamp }}</p>
+						<h3>{{ post_obj.title }}</h3>
+						<h5>Posted by:
+							{% if post_obj.author_expert_id %}
+								<b>{{ author.name}} </b>
+							{% else %}
+								<b>{{ author.name}}</b>
+								<a style ="color: #5A5A76;" href="/location/{{ author.location_id }}"><h5>Study user location's climate</h5></a>
+							{% endif %}
+							</h5>
+
+						<h5>Category: {{ post_obj.category }}<b></b></h5>
+						<p align="justify">{{ post_obj.description}}</p>						
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+	<p align="center"><a href="{{ post_obj.get_absolute_URL }}edit"><button class="btn btn-lg">Edit this post</button></a></p>
+
+	<div class="row">
+		<div class="col-lg-1"></div>
+		<div class="col-lg-10">
+		<h4>Comments</h4>
+			<ul class="list-group">
+				{% for comment, author in comments_and_authors %}
+				<li class="list-group-item"><span><b>{{ author.name }}:</b> <br><span style="font-size: 90%">{{comment.timestamp|timesince}} ago</span><br></span> <span style="font-size: 110%">{{ comment.text }}</span></li>
+				{% endfor %}
+			</ul>
+			<form class="form-inline" role="form" action="" method="post">{% csrf_token %}
+				<div class="form-group" style="float:left;width:100%;">
+					<textarea class="form-control FormElement" name="comment" required="True" placeholder="Say something" rows="2" style="float:left;width:100%;"></textarea>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+			<br>
+			<p align="right"><a href="{{ post_obj.get_absolute_URL }}delete"><button class="btn-danger btn-lg">Delete this post</button></a></p>
+		</div>
+	</div>
+	</div>
+{% endblock content %}

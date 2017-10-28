@@ -1,185 +1,88 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Farmers' Portal</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
- 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
- 	<link rel="stylesheet" href="../static/css/style.css" type="text/css"/>
-</head>
-<body>
-	<div id="loginModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-	    	<!-- Modal content-->
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 align="center" class="modal-title"><b style="font:serif;color: #004d00;">LOGIN</b></h4>
-		      </div>
-		      <div class="modal-body">
-		        <form role="form" action="./login/" method="post">
-		        <div class="form-group">
-		        	<input class="form-control" required="True" type="email" name="email" placeholder="Email"></input></div>
-		        <div class="form-group">
-		        	<input class="form-control" required="True" type="password" name="passwd" placeholder="Password"></input></div>
-		        <input class="btn btn-primary" type="submit" value="Login"></input>
-		        
-		        </form>
-		      </div>
-		      <div class="modal-footer">
-		      	<div class="pull-left">
-		        <button type="button" class="btn btn-primary btn-sm"><a href="signup.html">Forgot Password</a></button>
-		        </div>
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		      </div>
-		    </div>
-		</div>
-	</div>
-	<div class="container" id="top">
-	<div class="main_image"></div>
-	<div class ="heading"><h2>Farmers' Portal : <i>Connecting farmers and experts</i></h2></div>
-	<nav class="navbar navbar-inverse">		
-		<div class="navbar-header">
-		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>                        
-		</button>
-      
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-		<ul class="nav nav-tabs nav-justified">
-		<li><a href="index.html"><span class="glyphicon glyphicon-home"></span> <b>Home</b></a></li>
-		<li><a href="signup.html"><span class="glyphicon glyphicon-user"></span> <b>Sign Up</b></a></li>
-	    <li><a data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-	    <li><a href="faq.html"><span class="glyphicon glyphicon-info-sign"></span> <b>FAQ</b></a></li>
-	    <li><a href="about.html"><span class="glyphicon glyphicon-tasks"></span> <b>About Us</b></a></li>
-	    </ul>
-	</div>
-	</nav>
-	</div>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block navbar %}
+	{% if user %}
+		{% include "navbar_after_login.html" %}
+	{% else %}
+		{% include "navbar_before_login.html" %}
+	{% endif %}
 
+{% endblock navbar %}
+
+{% block content %}
 	<div class="container">
 	
-	<div class="jumbotron">
-	<h1>Welcome to Farmers' Portal</h1>
-	<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-	<ul>
-	    <li>olor sit amet, consectet</li>
-	    <li>quet nec, vulputate </li>
-	    <li>i nec, vulputate eget t nec, vulputate eget</li>
-	    <li>t nec, vulputate egett nec, vulputate egett nec, vulputate eget</li>
-	</ul>
-	</p>
-	<p><a class="btn btn-primary btn-lg" href="faq.html" role="button">Learn more</a> <a class="btn btn-primary btn-lg" href="signup.html" role="button">Register</a></p>
-	</div>
+	{% if user %}
+		<div class="row">
+			<div class="col-lg-4">
+				<ul class="list-group menu">
+					<li class="list-group-item" align="center">Dapibdfus ac facilisis in</li>
+					<a href="/posts/create"><li class="list-group-item">Create a new post</li></a>
+					<a href="query.html"><li class="list-group-item">Dapibus ac facilisis in</li></a>
+					<a href="#"><li class="list-group-item">Morbi ldfgdeo risus</li></a>
+				</ul>
+				
+			</div>
+			<div class="col-lg-4">
+				<ul class="list-group menu">
+					<li class="list-group-item" align="center">Dapibufgdfgs ac facilisis in</li>
+					<a href="#"><li class="list-group-item">Crasdfd justofgdfgdf dfgdf odio</li></a>
+					<a href="#"><li class="list-group-item">Dapibudfgs ac facilisis in</li></a>
+					<a href="#"><li class="list-group-item">Morbi fdleo risus</li></a>
+				</ul>
+			</div>
+			<div class="col-lg-4">
+				<ul class="list-group menu">
+					<li class="list-group-item" align="center">Dapibus ac facilisis in</li>
+					<a href="#"><li class="list-group-item">Cras justo odio</li></a>
+					<a href="#"><li class="list-group-item">Dapibusfgdf ac facilisis in</li></a>
+					<a href="#"><li class="list-group-item">Morbi leo risus</li></a>
+				</ul>
+			</div>
+
+		</div>
+	{% else %}
+		<div class="jumbotron">
+		<h1>Welcome to Farmers' Portal</h1>
+		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+		<ul>
+		    <li>olor sit amet, consectet</li>
+		    <li>quet nec, vulputate </li>
+		    <li>i nec, vulputate eget t nec, vulputate eget</li>
+		    <li>t nec, vulputate egett nec, vulputate egett nec, vulputate eget</li>
+		</ul>
+		</p>
+		<p><a class="btn btn-primary btn-lg" href="faq.html" role="button">Learn more</a> <a class="btn btn-primary btn-lg" href="signup.html" role="button">Register</a></p>
+		</div>
+	{% endif %}
+
+	
 	<h1 class="heading">P O S T S</h1>
 	<div class="row" align="center">
-		<div class="col-lg-4">
+		{% for obj in all_posts %}
+			<div class="col-lg-4">
 			<div class="panel panel-default">
-				<div class="panel-heading">Posted on: 2015-03-21 05:56 pm</div>
+				
+				{% if obj.author_expert_id %}
+					<div class="panel-heading" style="background: url('{% static 'images/post_head_expert_back.jpg' %}') repeat;"><b>EXPERT'S POST</b></div>
+				{% else %}
+					<div class="panel-heading" ><b>FARMER'S POST</b></div>
+				{% endif %}
 				<div class="panel-body">
-					<img src="../static/images/image1.jpg" alt="No image uploaded">
+					<img src="/media/{{obj.image}}" alt="No image uploaded" style="width: 80%; height: 180px">
 					<div class="caption">
-						<h3 align="center">atdelectus ducimus necessitatib</h3>
-						<p align="justify">Lelectus ducimus necessitatibus reiciendis optioMetrro and Barcllay have recen orem ipsum dolor...</p>
-						<p align="center"><a href="#" class="btn btn-primary" role="button">View Post</a></p>
+						<p align="center"> Posted {{ obj.timestamp|timesince }} ago </p>
+						<h4 align="center">{{ obj.title }}</h4>
+						<!-- <p align="justify">{{ obj.description|linebreaks|truncatechars:80 }}</p> -->
+						<p align="center"><a href="{% url 'post:detail' id=obj.post_id %}" class="btn btn-primary" role="button">View Post</a></p>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="panel panel-default">
-				<div class="panel-heading">Posted on: 2012-03-21 05:56 pm</div>
-				<div class="panel-body">
-					<img src="../static/images/image2.jpg" alt="No image uploaded">
-					<div class="caption">
-						<h3 align="center">atdelectus ducimus necessitatib</h3>
-						<p align="justify">LLoremmus necessitatibus reiciendis optioMetrro and Barcllay have recen orem ipsum dolor...</p>
-						<p align="center"><a href="#" class="btn btn-primary" role="button">View Post</a></p>
-					</div>
-				</div>
 			</div>
-		</div>
-		<div class="col-lg-4">
-		<div class="panel panel-default">
-			<div class="panel-heading">Posted on: 2011-03-21 05:56 pm</div>
-			<div class="panel-body">
-				<img src="../static/images/image2.jpg" alt="No image uploaded">
-				<div class="caption">
-					<h3 align="center">atdelectus ducimus necessitatib</h3>
-					<p align="justify">LLorem ipsum dolor Consequatdelectus ducimus necessitatibus reiciendis optioMetrro and Barcllay have recen orem ipsum dolor...</p>
-					<p align="center"><a href="#" class="btn btn-primary" role="button">View Post</a></p>
-				</div>
-			</div>
-		</div>
+			{% cycle "" "" "</div><div class='row'>" %}
+		{% endfor %}
 	</div>
 	
 	</div>
-	<div class="row" align="center">
-		<div class="col-lg-4">
-			<div class="panel panel-default">
-				<div class="panel-heading">Posted on: 2015-03-21 05:56 pm</div>
-				<div class="panel-body">
-					<img src="../static/images/image1.jpg" alt="No image uploaded">
-					<div class="caption">
-						<h3 align="center">atdelectus ducimus necessitatib</h3>
-						<p align="justify">Lelectus ducimus necessitatibus reiciendis optioMetrro and Barcllay have recen orem ipsum dolor...</p>
-						<p align="center"><a href="#" class="btn btn-primary" role="button">View Post</a></p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-4">
-			<div class="panel panel-default">
-				<div class="panel-heading">Posted on: 2012-03-21 05:56 pm</div>
-				<div class="panel-body">
-					<img src="../static/images/image2.jpg" alt="No image uploaded">
-					<div class="caption">
-						<h3 align="center">atdelectus ducimus necessitatib</h3>
-						<p align="justify">LLoremmus necessitatibus reiciendis optioMetrro and Barcllay have recen orem ipsum dolor...</p>
-						<p align="center"><a href="#" class="btn btn-primary" role="button">View Post</a></p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-4">
-		<div class="panel panel-default">
-			<div class="panel-heading">Posted on: 2011-03-21 05:56 pm</div>
-			<div class="panel-body">
-				<img src="../static/images/image2.jpg" alt="No image uploaded">
-				<div class="caption">
-					<h3 align="center">atdelectus ducimus necessitatib</h3>
-					<p align="justify">LLorem ipsum dolor Consequatdelectus ducimus necessitatibus reiciendis optioMetrro and Barcllay have recen orem ipsum dolor...</p>
-					<p align="center"><a href="#" class="btn btn-primary" role="button">View Post</a></p>
-				</div>
-			</div>
-		</div>
-	</div>
 	
-	</div>
-
-		
-	</div>
-
-
-
-	</div>
-	<br>
-	<footer class="footer">
-	<br>
-      <div class="container">
-        <p class="text-muted" align="center"><a href="#top"><span class="glyphicon glyphicon-arrow-up"></span> Back to Top</a></p>
-        <p class="text-muted" align="center"><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home</a></p>
-      </div>
-    </footer>
-	
-	
-
-
-
-</body>
-</html>
+{% endblock content %}

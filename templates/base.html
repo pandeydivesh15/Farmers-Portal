@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Farmers' Portal</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	{% block add_static %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+ 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+ 	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css"/>
+ 	{% endblock add_static %}
+</head>
+<body>
+	{% block navbar %}
+			{% include "navbar_before_login.html" %}
+	{% endblock navbar %}
+
+	{% include "messages_display.html" %}
+	
+
+	{% block content %}
+	
+	{% endblock content %}
+
+    {% block afterbody %}
+	<br>
+	<footer class="footer">
+	<br>
+      <div class="container">
+        <p class="text-muted" align="center"><a href="#top"><span class="glyphicon glyphicon-arrow-up"></span> Back to Top</a></p>
+        <p class="text-muted" align="center"><a href="index.html"><span class="glyphicon glyphicon-home"></span> Home</a></p>
+      </div>
+    </footer>
+	{% endblock afterbody %}
+	
+</body>
+</html>
