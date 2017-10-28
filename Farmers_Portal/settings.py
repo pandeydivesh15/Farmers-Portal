@@ -25,7 +25,7 @@ SECRET_KEY = '%=4=#0g$et_^s-xipant#_v6@pth#e*08-_lx3=h2or72=6fz='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [u'farmers-portal.herokuapp.com', ]
 
 
 # Application definition
