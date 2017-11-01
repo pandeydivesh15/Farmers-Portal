@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block navbar %}
+	{% if user %}
+		{% include "navbar_after_login.html" %}
+	{% else %}
+		{% include "navbar_before_login.html" %}
+	{% endif %}
+
+{% endblock navbar %}
+
+{% block content %}
+	<div class="container">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="caption">
+						<h2 align="center">FAQ</h2>
+						<br><br>
+						<p><b>Q. What is Farmers' Portal?</b></p>
+						<p><b>A. </b>The Farmers' Portal is a web portal to connect farmers and experts. Experts can help farmers deal with various agricultural problems.</p>
+						<br>
+						<p><b>Q. How to start using this portal?</b></p>
+						<p><b>A. </b>Experts and Farmers can both register themselves using the sign up form. After signing up, you may login and start working.</p>
+						<br>
+						<p><b>Q. What facilities are available in this portal for a farmer?</b></p>
+						<p><b>A. </b>A farmer can register his/her crop for maintenance. He can search for other farmers in his/her location. Most importantly, he/she can post a question to experts regarding farming. Also, if farmer is facing a crop disease, he/she can take expert's advice. Many more options available.</p>
+						<br>
+						<p><b>Q. What can an expert expect in this site?</b></p>
+						<p><b>A. </b>An Expert, after successful registration, can study various crops/infected crops in any location. He may study the crops grown by other farmers and help them accordingly. He may also study weather info for some farmer's location.</p>
+						<br>
+						<p><b>Q. I am a farmer and my crop is infected. What should I do??</b></p>
+						<p><b>A. </b>Simply make a new post about this. During making a new post, ensure that you upload a good photo describing the infection in the crop. After the post is created, an expert will respond accordingly.</p>
+					</div>
+
+				</div>
+				
+			</div>
+	
+	</div>
+	
+{% endblock content %}

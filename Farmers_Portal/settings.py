@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%=4=#0g$et_^s-xipant#_v6@pth#e*08-_lx3=h2or72=6fz='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = [u'farmers-portal.herokuapp.com', ]
+ALLOWED_HOSTS = [u'farmers-portal.herokuapp.com', u'127.0.0.1']
 
 
 # Application definition
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'location',
     'post',
     'home',
-
+    'crop',
 ]
 
 MIDDLEWARE = [

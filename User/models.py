@@ -13,7 +13,7 @@ class Farmer(models.Model):
 	name = models.CharField(max_length=30)
 
 	user_id = models.EmailField(max_length=30,unique=True)
-	user_pwd = models.CharField(max_length=30)
+	user_pwd = models.CharField(max_length=100)
 
 	contact = models.BigIntegerField()
 	

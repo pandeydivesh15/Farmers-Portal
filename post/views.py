@@ -9,6 +9,7 @@ from django.db import connection, transaction
 
 import datetime
 import os
+import base64
 
 # Create your views here.
 from .models import POST_CATEGORIES
@@ -22,6 +23,11 @@ def namedtuplefetchall(cursor):
 	desc = cursor.description
 	nt_result = namedtuple('Result', [col[0] for col in desc])
 	return [nt_result(*row) for row in cursor.fetchall()]
+
+def remove_from_dir(dir_path, filename):
+	full_path = os.path.join(dir_path, filename)
+	if os.path.isfile(full_path):
+		os.remove(full_path)
 
 #CRUD implemented here
 def posts_create(request):
@@ -48,6 +54,7 @@ def posts_create(request):
 		category = request.POST.get('post_category')
 		try:
 			image = request.FILES['post_image']
+
 		except Exception:
 			image = None
 
@@ -57,23 +64,31 @@ def posts_create(request):
 			full_filename = os.path.join(MEDIA_ROOT, image.name)
 			fout = open(full_filename, 'wb+')
 
-			file_content = ContentFile(image.read())
+			image_read = image.read()
+
+			file_content = ContentFile(image_read)
 
 			# Iterate through the chunks.
 			for chunk in file_content.chunks():
 				fout.write(chunk)
 			fout.close()
 
-		# Data modifying operation - commit required
-		if request.session["user_class"] == 'E':
-			query = "INSERT INTO post_post('title', 'description', 'category', 'timestamp', 'updated', 'author_expert_id', 'image') Values(%s, %s, %s, %s, %s, %s, %s)"
-		else:
-			query = "INSERT INTO post_post('title', 'description', 'category', 'timestamp', 'updated', 'author_farmer_id', 'image') Values(%s, %s, %s, %s, %s, %s, %s)"
+			image_64_encode = base64.encodestring(image_read)
 
+		# Data modifying operation - commit required
 		if image:
-			cursor.execute(query, [title, disc, category,  datetime.datetime.now(),  datetime.datetime.now(), current_user.auto_id, image.name])
+			if request.session["user_class"] == 'E':
+				query = "INSERT INTO post_post('title', 'description', 'category', 'timestamp', 'updated', 'author_expert_id', 'image', 'image_db') Values(%s, %s, %s, %s, %s, %s, %s, %s)"
+			else:
+				query = "INSERT INTO post_post('title', 'description', 'category', 'timestamp', 'updated', 'author_farmer_id', 'image', 'image_db') Values(%s, %s, %s, %s, %s, %s, %s, %s)"
+			cursor.execute(query, [title, disc, category,  datetime.datetime.now(),  datetime.datetime.now(), current_user.auto_id, image.name, image_64_encode])
 		else:
-			cursor.execute(query, [title, disc, category,  datetime.datetime.now(),  datetime.datetime.now(), current_user.auto_id, None])			
+			if request.session["user_class"] == 'E':
+				query = "INSERT INTO post_post('title', 'description', 'category', 'timestamp', 'updated', 'author_expert_id') Values(%s, %s, %s, %s, %s, %s)"
+			else:
+				query = "INSERT INTO post_post('title', 'description', 'category', 'timestamp', 'updated', 'author_farmer_id') Values(%s, %s, %s, %s, %s, %s)"
+			cursor.execute(query, [title, disc, category,  datetime.datetime.now(),  datetime.datetime.now(), current_user.auto_id])			
+		
 		transaction.commit()
 
 		messages.success(request, "New Post Created")
@@ -87,9 +102,11 @@ def posts_create(request):
 def posts_detail(request,id=None):
 	check = check_if_auth_user(request)
 	current_user = None
+	user_class = None
 	if check:
 		cursor = connection.cursor()
-		if request.session["user_class"] == 'E':
+		user_class = request.session["user_class"]
+		if user_class == 'E':
 			query = "SELECT * FROM User_expert WHERE `User_expert`.'user_id' = %s"
 		else:
 			query = "SELECT * FROM User_farmer WHERE `User_farmer`.'user_id' = %s"
@@ -129,10 +146,11 @@ def posts_detail(request,id=None):
 
 	if request.method == "POST":
 		cmnt = request.POST.get('comment')
-		if request.session["user_class"] == 'F':
-			messages.error(request, "Sorry, you cant comment here.")
-			return redirect(reverse("post:detail", kwargs={ "id":id}))
-		query = "INSERT INTO post_comment('timestamp', 'text', 'author_expert_id', 'post_id') VALUES(%s, %s, %s, %s)"
+		if user_class == 'F':
+			query = "INSERT INTO post_comment('timestamp', 'text', 'author_farmer_id', 'post_id') VALUES(%s, %s, %s, %s)"
+		else:
+			query = "INSERT INTO post_comment('timestamp', 'text', 'author_expert_id', 'post_id') VALUES(%s, %s, %s, %s)"
+			
 		cursor.execute(query, [datetime.datetime.now(),  cmnt, current_user.auto_id, id])			
 		transaction.commit()
 
@@ -142,8 +160,13 @@ def posts_detail(request,id=None):
 
 	comments_and_authors = []
 	for comment in comments:
-		query = "SELECT * FROM User_expert WHERE `User_expert`.'auto_id' = %s"
-		cursor.execute(query, [comment.author_expert_id, ])
+		if comment.author_expert_id:
+			query = "SELECT * FROM User_expert WHERE `User_expert`.'auto_id' = %s"
+			cursor.execute(query, [comment.author_expert_id, ])
+		else:
+			query = "SELECT * FROM User_farmer WHERE `User_farmer`.'auto_id' = %s"
+			cursor.execute(query, [comment.author_farmer_id, ])
+
 		result = namedtuplefetchall(cursor)
 		comments_and_authors.append((comment, result[0]))
 
@@ -151,6 +174,8 @@ def posts_detail(request,id=None):
 		"post_obj" : instance,
 		"author" : author,
 		"comments_and_authors": comments_and_authors,
+		"user_class": user_class,
+		"user": current_user,
 	}
 	return render(request, "view_post.html", context_data)
 
@@ -202,26 +227,34 @@ def posts_update(request,id=None):
 		except Exception:
 			image = None
 
+		# Remove previous image (if any) from MEDIA_ROOT/ path
+		if instance.image:
+			remove_from_dir(MEDIA_ROOT, instance.image)
+
 		if image:
 			full_filename = os.path.join(MEDIA_ROOT, image.name)
 			fout = open(full_filename, 'wb+')
 
-			file_content = ContentFile(image.read())
+			image_read = image.read()
+
+			file_content = ContentFile(image_read)
 
 			# Iterate through the chunks.
 			for chunk in file_content.chunks():
 				fout.write(chunk)
 			fout.close()
+
+			image_64_encode = base64.encodestring(image_read)
 		
 		cursor = connection.cursor()
 
 		# Data modifying operation - commit required
 		
 		if image:
-			query = "UPDATE post_post SET 'title' = %s, 'description' = %s, 'category' = %s, 'updated' = %s, 'image' = %s WHERE `post_post`.'post_id' = %s"
-			cursor.execute(query, [title, disc, category, datetime.datetime.now(), image.name, id])
+			query = "UPDATE post_post SET 'title' = %s, 'description' = %s, 'category' = %s, 'updated' = %s, 'image' = %s, 'image_db' = %s WHERE `post_post`.'post_id' = %s"
+			cursor.execute(query, [title, disc, category, datetime.datetime.now(), image.name, image_64_encode, id])
 		else:
-			query = "UPDATE post_post SET 'title' = %s, 'description' = %s, 'category' = %s, 'updated' = %s, 'image' = NULL WHERE `post_post`.'post_id' = %s"
+			query = "UPDATE post_post SET 'title' = %s, 'description' = %s, 'category' = %s, 'updated' = %s, 'image' = NULL, 'image_db' = NULL WHERE `post_post`.'post_id' = %s"
 			cursor.execute(query, [title, disc, category, datetime.datetime.now(), id])
 		transaction.commit()
 
@@ -280,3 +313,5 @@ def posts_delete(request, id=None):
 
 	messages.success(request,"Post successfully deleted")
 	return redirect("home:welcome")
+
+

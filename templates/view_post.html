@@ -24,27 +24,49 @@
 					<div class="caption">
 						<p align="center">Posted on: {{ post_obj.timestamp }}</p>
 						<h3>{{ post_obj.title }}</h3>
-						<h5>Posted by:
-							{% if post_obj.author_expert_id %}
-								<b>{{ author.name}} </b>
-							{% else %}
-								<b>{{ author.name}}</b>
-								<a style ="color: #5A5A76;" href="/location/{{ author.location_id }}"><h5>Study user location's climate</h5></a>
-							{% endif %}
-							</h5>
+						<h5>Posted by: {{ author.name}}</h5>
 
 						<h5>Category: {{ post_obj.category }}<b></b></h5>
 						<p align="justify">{{ post_obj.description}}</p>						
 					</div>
 				</div>
+				
 			</div>	
+			{% if post_obj.author_farmer_id %}
+					{% if user_class == 'E' %}
+					<div class="panel panel-default post">
+						<div class="panel-heading"><b>Expert Operations</b></div>
+							<div class="panel-body">
+								<a style ="color: #5A5A76;" href="/location/{{ author.location_id }}"><h4>Study user location's climate</h4></a>
+								<a style ="color: #5A5A76;" href="/crops/tag_disease/{{ post_obj.author_farmer_id }}">
+								<h4>View user's crops and assign diseases</h4></a>
+					
+							</div>
+					</div>
+				{% endif %}
+			{% endif %}
+				
+				
+			</div>
 		</div>
 	</div>
+	{% if user_class == 'F' %}
+	{% if post_obj.author_farmer_id == user.auto_id %}
 	<p align="center"><a href="{{ post_obj.get_absolute_URL }}edit"><button class="btn btn-lg">Edit this post</button></a></p>
+	<p align="center"><a href="{{ post_obj.get_absolute_URL }}delete"><button class="btn-danger btn-lg">Delete this post</button></a></p>
+	{% endif %}
+	{% endif %}
+	{% if user_class == 'E' %}
+	{% if post_obj.author_expert_id == user.auto_id %}
+	<p align="center"><a href="{{ post_obj.get_absolute_URL }}edit"><button class="btn btn-lg">Edit this post</button></a></p>
+	<p align="center"><a href="{{ post_obj.get_absolute_URL }}delete"><button class="btn-danger btn-lg">Delete this post</button></a></p>
+	{% endif %}
+	{% endif %}
+
 
 	<div class="row">
-		<div class="col-lg-1"></div>
-		<div class="col-lg-10">
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">
 		<h4>Comments</h4>
 			<ul class="list-group">
 				{% for comment, author in comments_and_authors %}
@@ -60,7 +82,8 @@
 				</div>
 			</form>
 			<br>
-			<p align="right"><a href="{{ post_obj.get_absolute_URL }}delete"><button class="btn-danger btn-lg">Delete this post</button></a></p>
+
+			
 		</div>
 	</div>
 	</div>

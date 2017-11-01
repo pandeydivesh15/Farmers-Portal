@@ -8,6 +8,9 @@ from django.contrib import messages
 from django.db import connection, transaction
 
 import datetime
+import re
+
+from passlib.hash import bcrypt
 
 # Create your views here.
 from .models import start_user_session, check_if_auth_user, stop_user_session
@@ -64,12 +67,9 @@ def check_login(request):
 
 		for person in result:
 			if person.user_id == temp_id:
-				if person.user_pwd == temp_pwd:
+				if bcrypt.verify(temp_pwd, person.user_pwd):
 					messages.success(request, "Successful Login")
 					request = start_user_session(request, temp_id, 'E') # 'E' = Expert
-					return redirect("home:welcome")
-				else:
-					messages.error(request, "Enter correct password")
 					return redirect("home:welcome")
 
 		cursor = connection.cursor()
@@ -79,16 +79,13 @@ def check_login(request):
 
 		for person in result:
 			if person.user_id == temp_id:
-				if person.user_pwd == temp_pwd:
+				if bcrypt.verify(temp_pwd, person.user_pwd):
 					messages.success(request, "Successful Login")
 					request = start_user_session(request, temp_id, 'F') # 'F' = Farmer
 					return redirect("home:welcome")
-				else:
-					messages.error(request, "Enter correct password")
-					return redirect("home:welcome")
 
 		else:
-			messages.error(request, "No such mail ID exists")
+			messages.error(request, "Enter correct userID or password")
 
 	return redirect("home:welcome")
 
@@ -108,6 +105,26 @@ def signup_user(request):
 
 	
 	if name and email and pwd and city and state:
+		flag = 0
+		if len(pwd) < 6:
+			flag = 1
+			messages.error(request, "Make sure that password is minimum 6 characters long.")
+		if not re.match("^[6789][0-9]{9}$", con) or \
+		   not re.match("^[A-Za-z]*$", city) or \
+		   not re.match("^[A-Za-z]*$", state) or \
+		   not re.match("^[a-z][_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$", email):
+			flag = 1
+			messages.error(request, "Make sure that:")
+			messages.error(request, "1. Contact must be 10 digits long.")
+			messages.error(request, "2. Your city, state must have only A-Z or a-z characters.")
+			messages.error(request, "3. Also, make sure that that your mail ID is valid")
+
+		if flag == 1:
+			messages.error(request, "Please give proper credentials.")
+			return redirect("user:signup")
+
+		pwd = bcrypt.encrypt(pwd)
+
 		cursor = connection.cursor()
 
 		query = "SELECT loc_id FROM location_location WHERE `location_location`.city = %s and `location_location`.state = %s"
@@ -130,8 +147,13 @@ def signup_user(request):
 			query = "INSERT INTO User_expert('name', 'user_id', 'user_pwd', 'contact', 'location_id', 'join_timestamp') Values(%s, %s, %s, %s, %s, %s)"
 		else:
 			query = "INSERT INTO User_farmer('name', 'user_id', 'user_pwd', 'contact', 'location_id', 'join_timestamp') Values(%s, %s, %s, %s, %s, %s)"
+		
+		try:
+			cursor.execute(query, [name, email, pwd, con, loc_id, datetime.datetime.now()])
+		except:
+			messages.error(request, "Entered mail ID is already registered.")
+			return redirect("user:signup")
 
-		cursor.execute(query, [name, email, pwd, con, loc_id, datetime.datetime.now()])
 		transaction.commit()
 		
 		messages.success(request, "Sign up was successful")

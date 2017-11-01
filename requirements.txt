@@ -1,7 +1,12 @@
 Django==1.11.5
 Pillow==4.3.0
 argparse==1.2.1
+bcrypt==3.1.4
+cffi==1.11.2
 gunicorn==19.7.1
 olefile==0.44
+passlib==1.7.1
+pycparser==2.18
 pytz==2017.2
+six==1.11.0
 wsgiref==0.1.2

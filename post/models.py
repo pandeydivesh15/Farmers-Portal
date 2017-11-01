@@ -28,6 +28,7 @@ class Post(models.Model):
 	timestamp = models.DateTimeField(auto_now=False,auto_now_add=True)
 	
 	image = models.FileField(null=True, blank=True)
+	image_db = models.BinaryField(null=True, blank=True)
 
 	# image = models.ImageField(
 	# 	upload_to = upload_loc,
@@ -55,6 +56,7 @@ class Comment(models.Model):
 	text = models.TextField()
 
 	author_expert = models.ForeignKey(Expert, on_delete=models.CASCADE, blank=True, null=True)
+	author_farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE, blank=True, null=True)
 	post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True)
 
 	def __unicode__(self):

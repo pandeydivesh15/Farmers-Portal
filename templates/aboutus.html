@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block navbar %}
+	{% if user %}
+		{% include "navbar_after_login.html" %}
+	{% else %}
+		{% include "navbar_before_login.html" %}
+	{% endif %}
+
+{% endblock navbar %}
+
+{% block content %}
+	<div class="container">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="caption">
+						<h2 align="center">About this site</h2>
+						<br><br>
+
+						<div class="col-lg-6 col-lg-offset-3" align="justify">
+							<img src="{% static 'images/headeriitcse.png' %}" style="width:100%;" alt="">
+							<br><br>
+							<p>This site has been developed as a part of <b>DBMS course(CSE-361)</b> offered in 5th semester to CSE Part 3 students of <b>Indian Institute of Technology, BHU, Varanasi, India.</b></p>
+							<br>
+							<p>Name of the student: <b>Divesh Pandey, CSE 15, IIT BHU</b></p>
+							<p>Name of the supervisor: <b>Dr. Ravindranath Chowdary, IIT BHU</b></p>
+							<br>
+							<p>Any queries can be sent to <b>diveshpandey15@gmail.com</b></p>
+						</div>
+						
+					</div>
+
+				</div>
+				
+			</div>
+	
+	</div>
+	
+{% endblock content %}

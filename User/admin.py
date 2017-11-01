@@ -25,5 +25,5 @@ class ExpertModelAdmin(admin.ModelAdmin):
 	list_filter= ["join_timestamp"]
 	search_fields =["name"]
 
-admin.site.register(Expert, ExpertModelAdmin)
-admin.site.register(Farmer, FarmerModelAdmin)
+# admin.site.register(Expert, ExpertModelAdmin)
+# admin.site.register(Farmer, FarmerModelAdmin)

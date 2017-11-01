@@ -5,6 +5,8 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index_page, name="welcome"),
-    # url(r'^search/$', views.query_result, name="search"),
-    # url(r'^aboutus/$', views.about_us, name="aboutus"),
+    url(r'^query/(?P<id>\d+)/$', views.query_resolve, name="query"),
+    url(r'^query/search/(?P<id>\d+)/$', views.search_database, name="search"),
+    url(r'^faq/$', views.get_faq, name="faq"),
+    url(r'^aboutus/$', views.about_us, name="aboutus"),
 ]

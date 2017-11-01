@@ -14,45 +14,67 @@
 	
 	{% if user %}
 		<div class="row">
-			<div class="col-lg-4">
+			{% if user_class == 'F' %}
+						<div class="col-lg-6">
+			{% else %}
+				<div class="col-lg-4">
+			{% endif %}
 				<ul class="list-group menu">
-					<li class="list-group-item" align="center">Dapibdfus ac facilisis in</li>
+					<li class="list-group-item" align="center">Posts and Crops</li>
 					<a href="/posts/create"><li class="list-group-item">Create a new post</li></a>
-					<a href="query.html"><li class="list-group-item">Dapibus ac facilisis in</li></a>
-					<a href="#"><li class="list-group-item">Morbi ldfgdeo risus</li></a>
+					{% if user_class == 'F' %}
+						<a href="/crops/register"><li class="list-group-item">Register a new crop</li></a>
+						<a href="/crops/view"><li class="list-group-item">View your crops</li></a>
+					{% else %}
+						<a href="#"><li class="list-group-item"><strike>Register a new crop</strike></li></a>
+						<a href="#"><li class="list-group-item"><strike>View your crops</strike></li></a>
+					{% endif %}
+					
+					
 				</ul>
 				
 			</div>
-			<div class="col-lg-4">
+			{% if user_class == 'E' %}
+				<div class="col-lg-4">
+					<ul class="list-group menu">
+						<li class="list-group-item" align="center">search</li>
+						<a href="/query/1"><li class="list-group-item">Search for some farmer</li></a>
+						<a href="/query/2"><li class="list-group-item">Find some post</li></a>
+						<a href="/query/3"><li class="list-group-item">Find some crop</li></a>
+					</ul>
+				</div>
+				<div class="col-lg-4">
+					<ul class="list-group menu">
+						<li class="list-group-item" align="center">Information</li>
+						<a href="/query/4"><li class="list-group-item">View farmers of your location</li></a>
+						<a href="/query/5"><li class="list-group-item">View infected crops</li></a>
+						<a href="/query/6"><li class="list-group-item">See nutrients and associated fertilizers</li></a>
+					</ul>
+				</div>
+			{% else %}
+				<div class="col-lg-6">
 				<ul class="list-group menu">
-					<li class="list-group-item" align="center">Dapibufgdfgs ac facilisis in</li>
-					<a href="#"><li class="list-group-item">Crasdfd justofgdfgdf dfgdf odio</li></a>
-					<a href="#"><li class="list-group-item">Dapibudfgs ac facilisis in</li></a>
-					<a href="#"><li class="list-group-item">Morbi fdleo risus</li></a>
+					<li class="list-group-item" align="center">search</li>
+					<a href="/query/1"><li class="list-group-item">Search for some farmer</li></a>
+					<a href="/query/2"><li class="list-group-item">Find some post</li></a>
+					<a href="/query/3"><li class="list-group-item">Find some crop</li></a>
 				</ul>
-			</div>
-			<div class="col-lg-4">
-				<ul class="list-group menu">
-					<li class="list-group-item" align="center">Dapibus ac facilisis in</li>
-					<a href="#"><li class="list-group-item">Cras justo odio</li></a>
-					<a href="#"><li class="list-group-item">Dapibusfgdf ac facilisis in</li></a>
-					<a href="#"><li class="list-group-item">Morbi leo risus</li></a>
-				</ul>
-			</div>
+				</div>
+			{% endif %}
+			
 
 		</div>
 	{% else %}
 		<div class="jumbotron">
 		<h1>Welcome to Farmers' Portal</h1>
-		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+		<p>A web portal to connect farmers and experts.
 		<ul>
-		    <li>olor sit amet, consectet</li>
-		    <li>quet nec, vulputate </li>
-		    <li>i nec, vulputate eget t nec, vulputate eget</li>
-		    <li>t nec, vulputate egett nec, vulputate egett nec, vulputate eget</li>
+		    <li>Being a farmer, register your crops, maintain your crops, search for other farmers, etc.</li>
+		    <li>Being an expert, study infected crops, know what other farmers are growing, advice farmers, etc.</li>
+		    <li>Create posts and talk to farmers / experts.</li>
 		</ul>
 		</p>
-		<p><a class="btn btn-primary btn-lg" href="faq.html" role="button">Learn more</a> <a class="btn btn-primary btn-lg" href="signup.html" role="button">Register</a></p>
+		<p><a class="btn btn-primary btn-lg" href="/faq" role="button">Learn more</a> <a class="btn btn-primary btn-lg" href="/signup" role="button">Register</a></p>
 		</div>
 	{% endif %}
 
@@ -69,7 +91,7 @@
 					<div class="panel-heading" ><b>FARMER'S POST</b></div>
 				{% endif %}
 				<div class="panel-body">
-					<img src="/media/{{obj.image}}" alt="No image uploaded" style="width: 80%; height: 180px">
+					<a href="{% url 'post:detail' id=obj.post_id %}"><img src="/media/{{obj.image}}" alt="No image uploaded" style="width: 80%; height: 180px"></a>
 					<div class="caption">
 						<p align="center"> Posted {{ obj.timestamp|timesince }} ago </p>
 						<h4 align="center">{{ obj.title }}</h4>

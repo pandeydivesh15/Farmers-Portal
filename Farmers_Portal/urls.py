@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^',  include("User.urls", namespace="user")),
     url(r'^',  include("location.urls", namespace="location")),
     url(r'^posts/',  include("post.urls", namespace="post")),
-
+    url(r'^crops/',  include("crop.urls", namespace="crop")),
     url(r'^admin/', admin.site.urls),
 ] 
 

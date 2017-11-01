@@ -1,52 +1,56 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Farmers' Portal</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
- 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
- 	<link rel="stylesheet" href="../static/css/style.css" type="text/css"/>
-</head>
-<body>
-	 
-	<div class="container" id="top">
-	<div class="main_image"></div>
-	<div class ="heading"><h2>Farmers' Portal : <i>Connecting farmers and experts</i></h2></div>
-	<nav class="navbar navbar-inverse">		
-		<div class="navbar-header">
-		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>                        
-		</button>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-		<ul class="nav nav-tabs nav-justified">	
-		<li><a href="home.html"><span class="glyphicon glyphicon-home"></span> <b>Home</b></a></li>
-		<li><a href="profile.html"><span class="glyphicon glyphicon-user"></span> <b>View your profile</b></a></li>
-	    <li><a href="logout.html"><span class="glyphicon glyphicon-log-out"></span> <b>Logout</b></a></li>
-	    <li><a href="faq.html"><span class="glyphicon glyphicon-info-sign"></span> <b>FAQ</b></a></li>
-	    <li><a href="about.html"><span class="glyphicon glyphicon-tasks"></span> <b>About Us</b></a></li>
-	    </ul>
-	</div>
-	</nav>
-	</div>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block navbar %}
+	{% if user %}
+		{% include "navbar_after_login.html" %}
+	{% else %}
+		{% include "navbar_before_login.html" %}
+	{% endif %}
 
+{% endblock navbar %}
+
+{% block content %}
 	<div class="container">
 	<div class="col-lg-10 col-lg-offset-1">
 	<div class="panel panel-default">
-		<div class="panel-heading" align="center"><h3 align="center">atdelectus ducimus necessitatib</h3></div>
+		<div class="panel-heading" align="center"><h3 align="center">
+		{% if query_id == '1' %}
+			Search for some farmer
+		{% elif query_id == '2' %}
+			Find some post
+		{% elif query_id == '3' %}
+			Find some crop
+		{% elif query_id == '4' %}
+			View farmers of your area
+		{% elif query_id == '5' %}
+			View infected crops
+		{% elif query_id == '6' %}
+			See nutrients and associated fertilizers
+		{% endif %}
+
+		</h3></div>
 		<div class="panel-body">
 			<div class="caption">
 				
-				<p align="justify">LLorem iLLorem ipsum dolor Consequatdelectus ducimus necessitatibus reiciendis optioMetrro and Barcllay have recen orem ipsum doLLorem ipsum dolor Consequatdelectus ducimus necessitatibus reiciendis optioMetrro and Barcllay have recen orem ipsum doLLorem ipsum dolor Consequatdelectus ducimus necessitatibus reiciendis optioMetrro and Barcllay have recen orem ipsum dopsum dolor Consequatdelectus ducimus necessitatibus reiciendis optioMetrro and Barcllay have recen orem ipsum dolor...</p>
-
+				<p align="justify">
+					{% if query_id == '1' %}
+						Enter partial / full name of farmer you wish to search. You can also enter partial / full name of the farmer's city/state.
+					{% elif query_id == '2' %}
+						Search for any post here. You can search post titles, descriptions, and absolute IDs.
+					{% elif query_id == '3' %}
+						Search for any crop here. You can search crop names and their families.
+					{% elif query_id == '4' %}
+						Here all the farmers currently registered in your location are listed.
+					{% elif query_id == '5' %}
+						View all the crops that are currently infected with some kind of disease.
+					{% elif query_id == '6' %}
+						Here, all nutrients and fertilizers are listed.
+					{% endif %}
+				</p>
+				{% if query_id < '4' %}
 				<div class="container-fluid searchbox">
 				<div align="center">
-					<form class="navbar-form" role="search" action="">
+					<form class="navbar-form" role="search" action="/query/search/{{ query_id }}" method="get">
 						<div class="input-group">
 						<input type="text" class="form-control input-lg" placeholder="Search" name="search_query">
 						<div class="input-group-btn">
@@ -56,50 +60,83 @@
 					</form>
 				</div>
 				</div>
+				{% endif %}
 				<br>
-				
+				{% if result %}
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>Firstname</th>
-							<th>Lastname</th>
-							<th>Email</th>
+							{% for header in result_header %}
+								<th>{{ header }}</th>
+							{% endfor %}
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>John</td>
-							<td>Doe</td>
-							<td>john@example.com</td>
-						</tr>
-						<tr>
-							<td>Mary</td>
-							<td>Moe</td>
-							<td>mary@example.com</td>
-						</tr>
-						<tr>
-							<td>July</td>
-							<td>Dooley</td>
-							<td>july@example.com</td>
-						</tr>
+						{% for obj in result %}
+							{% if query_id == '1' %}
+								<tr>
+									<td>{{ obj.Name }}</td>
+									<td>{{ obj.Email }}</td>
+								</tr>
+							{% elif query_id == '2' %}
+								<tr>
+									<td>{{ obj.Title }}</td>
+									<td>{{ obj.PostedOn }}</td>
+									<td><a style="color: blue;" href="/posts/{{ obj.Link }}">Click here</a></td>
+								</tr>
+							{% elif query_id == '3' %}
+								<tr>
+									<td>{{ obj.CropName }}</td>
+									<td>{{ obj.Family }}</td>
+								</tr>
+							{% elif query_id == '4' %}
+								<tr>
+									<td>{{ obj.Name }}</td>
+									<td>{{ obj.Email }}</td>
+								</tr>
+							{% elif query_id == '5' %}
+								<tr>
+									<td>{{ obj.CropName }}</td>
+									<td>{{ obj.Family }}</td>
+									<td>{{ obj.FarmerName }}</td>
+									<td>{{ obj.Email }}</td>
+									<td>{{ obj.Disease }}</td>
+									<td>{{ obj.Category }}</td>
+								</tr>
+							{% elif query_id == '6' %}
+								<tr>
+									<td>{{ obj.Fertilizer }}</td>
+									<td>{{ obj.Nutrient }}</td>
+									<td>{{ obj.NutrientType }}</td>
+								</tr>
+							{% endif %}
+							
+						{% endfor %}
 					</tbody>
 				</table>
+				
+				{% if query_id == '3' %}
+				<br>
+					<table class="table table-hover">
+					<h4>Farmers growing this crop are listed as:</h4>
+					<tbody>
+					{% for obj in result_farmers %}							
+						<tr>
+							<td>{{ obj.name }}</td>
+							<td>{{ obj.user_id }}</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+					</table>
+				{% endif %}
+				
+				{% endif %}
+		
 				
 			</div>
 		</div>
 	</div>
 	</div>
 	</div>
-	<footer class="footer">
-	<br>
-      <div class="container">
-        <p class="text-muted" align="center"><a href="#top"><span class="glyphicon glyphicon-arrow-up"></span> Back to Top</a></p>
-        <p class="text-muted" align="center"><a href="home.html"><span class="glyphicon glyphicon-home"></span> Home</a></p>
-      </div>
-    </footer>
 	
-
-
-
-</body>
-</html>
+{% endblock content %}
